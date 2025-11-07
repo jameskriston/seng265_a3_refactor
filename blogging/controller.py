@@ -80,9 +80,9 @@ class Controller:
 
     def delete_blog(self, blog_id):
         """ delete a blog by given id """
-        if self.logged_in == False or not self.search_blog(blog_id):
+        if self.logged_in is False or not self.search_blog(blog_id):
             return False
-        
+
         current = self.get_current_blog() #check to not delete current blog
         if(current is not None and current.blog_id == blog_id):
             return False
@@ -98,9 +98,7 @@ class Controller:
 
     def list_blogs(self): 
         """ lists all blogs """
-        if(self.logged_in == False):
-            return None
-        return self.blogs
+        return self.blogs if self.logged_in else None
 
 
     def set_current_blog(self, blog_id): 
@@ -109,55 +107,46 @@ class Controller:
             return None
         self.current_blog = self.search_blog(blog_id)
 
-    def get_current_blog(self): # get current blog if logged in
-        if(self.logged_in == False):
-            return None 
-        return self.current_blog
+    def get_current_blog(self): # get current blog if logged in and current blog is not None
+       return self.current_blog if(self.logged_in and (self.current_blog is not None)) else None
 
 
     def unset_current_blog(self): 
         """ set current blog to none """
         if(self.logged_in == False):
-            return None
+            return False
         self.current_blog = None      
 
 
-    def create_post(self,code,title,text):
-        if(self.logged_in is False):
-            return False
-        blog = self.get_current_blog()
-        return blog.update_post(code,title,text)
+    def create_post(self,title,text):
+        if(self.logged_in is True):
+            blog = self.get_current_blog()
+            return blog.create_post(title,text) if blog else None
     
     def search_post(self,code):
-        if(self.logged_in is False):
-            return False
-        blog = self.get_current_blog()
-        return blog.search_post(code)
+        if(self.logged_in is True):
+            blog = self.get_current_blog()
+            return blog.search_post(code) if blog else None
     
     
     def retrieve_posts(self,text):
-        if(self.logged_in is False):
-                return False
-        blog = self.get_current_blog()
-        return blog.retrieve_posts(text)
+        if(self.logged_in is True):
+               blog = self.get_current_blog()
+               return blog.retrieve_posts(text) if blog else None
     
     
     def update_post(self,code,title,text):
-        if(self.logged_in is False):
-            return False
-        blog = self.get_current_blog()
-        return blog.update_post(code,title,text)
+        if(self.logged_in is True):
+            blog = self.get_current_blog()
+            return blog.update_post(code,title,text) if blog else False
 
 
     def delete_post(self,code):
-        if(self.logged_in is False):
-                return False
-        blog = self.get_current_blog()
-        return blog.delete_post(code)
+        if(self.logged_in is True):
+            blog = self.get_current_blog()
+            return blog.delete_post(code) if blog else False
         
-
-    def list_post(self):
-        if(self.logged_in is False):
-                return False
-        blog = self.get_current_blog()
-        return blog.list_posts()
+    def list_posts(self):
+        if(self.logged_in is True):
+            blog = self.get_current_blog()
+            return blog.list_posts() if blog else None

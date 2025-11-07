@@ -10,13 +10,6 @@ class Post:
         self.update = timestamp
         return 
     
-    def update_post(self,code,title,text):
-        self.code = code
-        self.title = title
-        self.text = text
-        now = datetime.now()
-        timestamp = now.strftime("%Y-%m-%d %H:%M:%S.%f")
-        self.update = timestamp  
 
     def __eq__ (self,other): 
         return (self.code == other.code   and 

@@ -1,4 +1,5 @@
 from .post import Post
+from datetime import datetime
 class Blog:
     def __init__(self, blog_id, name, url, email):
         self.blog_id = blog_id
@@ -26,7 +27,7 @@ class Blog:
         for post in self.posts:         # look through posts for matching code
             if (post.code == code):
                 return post
-        return None
+   
 
     def create_post(self,title,text): 
         """ creates a new post in current blog """
@@ -40,17 +41,22 @@ class Blog:
         """ search in current blog for post with text inside of the post's title or text """
         retrieved_posts = []
         for post in self.posts:
-            if text in post.text or text in post.title:
+            if text in post.title or text in post.text:
                 retrieved_posts.append(post)
         return retrieved_posts   
     
 
     def update_post(self, code, title, text):       
         """ update a post's content """
-        post = self.search_post(code)        # if no post found with code, cannot update        
+        post = self.search_post(code)        # if no post found with code, cannot update
         if(post is None):    
-            return False
-        return post.update_post(code,title,text) 
+            return False    
+        post.title = title
+        post.text = text
+        now = datetime.now()
+        timestamp = now.strftime("%Y-%m-%d %H:%M:%S.%f")
+        post.update = timestamp      
+        return post if post else False
 
 
     def delete_post(self,code):
