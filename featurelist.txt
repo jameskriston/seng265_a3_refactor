@@ -1,0 +1,77 @@
+required features
+
+
+Features                                            Feature Descriptions
+
+log in:                                             The user enters username and password. The system checks the user
+                                                   name and the password within the system and either logs in or not.
+Compare the entered username and password to the
+all the system's user/password combos, if there's a 
+match login the user. Can only login if not logged in. 
+
+log out:                                            The user logs out of the system 
+Ensure that a user is actually logged in,
+logout user
+
+search blog:                                        The user searches a blog by code (ID). If successful, it returns the blog.
+if entered id == some id in system, return blog
+
+
+create new blog:                                    The user creates a new blog in the system, with ID, name, URL and contact email.
+intilize a new blog with correct fields
+
+
+retrieve existing blog:                             The user searches blogs by name, and retrieves a list of blogs that have the searched name as part of the blog’s name.
+search blog by name, return list of blogs 
+with the search query in them
+
+update existing blog:                               The user searches the blog by ID, retrieves the blog data, and updates any part of that data.
+find a blog with search blog, get data and update
+some field
+
+delete existing blog:                               The user searches the blog by ID and deletes the blog from the system
+search blog by id, remove from system
+
+
+list all blogs:                                     The user recovers a list of all blogs
+return list of all blogs
+
+
+choose current blog:                                The user sets the current blog by providing a valid ID, the blog is
+                                                    searched and made the current blog. Then, the blog is available to    
+                                                    work with no further need to provide an ID. The current blog can be 
+                                                    unset as well, if needed.
+search by blog id and set as active
+user can do whatever to blog until 
+current blog is changed  or set to null
+
+create a new post in current blog:                  The user creates a new post for the current blog, storing the post’s
+                                                    code as the auto-incremented counter from the blog, and also storing 
+                                                    the post’s details and current creation timestamp (it also sets the initial
+                                                    update timestamp as the creation timestamp).
+add a post with some fields store the post's code, 
+details, timestamp, and increment some counter
+for blog
+
+retrieve existing posts from current blog:          The user searches the current blog by text, and retrieves a list of posts 
+                                                    that have the searched text inside either the post title or post text.
+search the current blog with a query and if
+the query is found in blog or post return a list
+containig all the matches
+
+
+update existing post in current blog:               The user selects a post by code in the current blog, retrieves the post’s 
+                                                    details, updates the details, and changes the update timestamp to the 
+                                                    current timestamp.
+select a post by code get
+the details, update details with changes and   
+update timestamp
+
+
+delete existing post in the current blog:           The user selects a post by code in the current blog, and deletes the post.
+delete the selected post by the code within
+the current blog
+
+list all posts from current blog:                   The user lists the full set of posts from a blog, from the last created post to the first created post.
+return a list of all post in order of
+old->new  from the current blog
