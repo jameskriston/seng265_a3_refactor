@@ -1,7 +1,4 @@
-from .blog import Blog
-from .post import Post  
-from datetime import datetime
-
+from .blog import Blog  
 class Controller:
     def __init__(self):
         self.logged_in = False 
@@ -103,7 +100,6 @@ class Controller:
         """ lists all blogs """
         if(self.logged_in == False):
             return None
-        
         return self.blogs
 
 
@@ -115,8 +111,7 @@ class Controller:
 
     def get_current_blog(self): # get current blog if logged in
         if(self.logged_in == False):
-            return None
-            
+            return None 
         return self.current_blog
 
 
@@ -124,113 +119,43 @@ class Controller:
         """ set current blog to none """
         if(self.logged_in == False):
             return None
-        
         self.current_blog = None      
 
 
-    def create_post(self,title,text): 
-        """ creates a new post in current blog """
-        if(self.logged_in == False):
-            return None
-        current_blog = self.get_current_blog()
-        if(current_blog is None):
-            return None  
-        size = len(current_blog.posts) 
-        new_post = Post(size+1,title,text)
-        current_blog.posts.append(new_post) #add post to list of posts in blog
-        return new_post
-     
-     ### Need to implement search_post() to pass create_post tests
-     ### Also need to properly set up __eq__ in post.py, it may need
-     ### to have fields for timestamps added, but that comparison of time
-     ### could also be done seperately from that eq() to distinguish between
-     ### identical posts made at different times
-
-
+    def create_post(self,code,title,text):
+        if(self.logged_in is False):
+            return False
+        blog = self.get_current_blog()
+        return blog.update_post(code,title,text)
+    
     def search_post(self,code):
-        """ search for post by code in current blog """
-        if(self.logged_in == False): #cannot search if not logged in
-            return None
-        current_blog = self.get_current_blog()  # get current blog
-        if(current_blog is None):
-            return None                         # cannot search post if no blog
-        
-        for post in current_blog.posts:         # look through posts for matching code
-            if (post.code == code):
-                return post
-
-        return None
- 
-
+        if(self.logged_in is False):
+            return False
+        blog = self.get_current_blog()
+        return blog.search_post(code)
     def retrieve_posts(self,text):
-        """ search in current blog for post with text inside of the post's title or text """
-        if(self.logged_in == False):
-            return None
-        current_blog = self.get_current_blog()
-        if(current_blog is None):
-            return None
-        retrieved_posts = []
-        for post in current_blog.posts:
-            if text in post.text or text in post.title:
-                retrieved_posts.append(post)
-
-        return retrieved_posts    
- 
-
-    def update_post(self, code, title, text):       
-        """ update a post's content """
-        if(self.logged_in == False):                # if not logged in cannot update
-            return False
-        
-        current_blog = self.get_current_blog()      # if no current blog cannot update
-        if current_blog is None:
-            return False
-        
-        update_post = self.search_post(code)        # if no post found with code, cannot update        
-        if(update_post is None):    
-            return False
-        
-        update_post.title = title                   # set updated post fields
-        update_post.text  = text
-        now = datetime.now()
-        timestamp = now.strftime("%Y-%m-%d %H:%M:%S.%f")
-        update_post.update = timestamp                    # there's no test for checking correct
-        return update_post                          # updated timestamps, will need to add that
-
+        if(self.logged_in is False):
+                return False
+        blog = self.get_current_blog()
+        return blog.retrieve_posts(text)
     
+    
+    def update_post(self,code,title,text):
+        if(self.logged_in is False):
+            return False
+        blog = self.get_current_blog()
+        return blog.update_post(code,title,text)
+
+
     def delete_post(self,code):
-        """ delete a post by code within current blog """
-        if(self.logged_in == False):                # cannot delete if not logged in
-            return False
-        current_blog = self.get_current_blog()
-        if(current_blog is None):                   # cannot delete if no current blog
-            return False
-        if(len(current_blog.posts) == 0):           # cannot delete if no posts exists
-            return False
+        if(self.logged_in is False):
+                return False
+        blog = self.get_current_blog()
+        return blog.delete_post(code)
         
-        index = 0                                   # find correct post to delete
-        for post in current_blog.posts:
-            if post.code == code:
-                removed_post = current_blog.posts.pop(index)
-                del removed_post
-                return True                         # return when post deleted
-            index+=1
- 
 
-    def list_posts(self):   
-        """ list all posts in order last created to first created """
-        if(self.logged_in == False):                # cannot list if not logged in
-            return None
-        current_blog = self.get_current_blog()
-        if(current_blog is None):                   # cannot list posts if no current blog
-            return None
-        if(len(current_blog.posts) is None):        # cannot list if no posts exist
-            return None
-        
-        post_list = current_blog.posts # get list of posts
-        sorted_list = sorted(post_list, key = lambda post: post.creation, reverse = True) #sort them 
-        return sorted_list 
-    
-
-
-
+    def list_post(self):
+        if(self.logged_in is False):
+                return False
+        blog = self.get_current_blog()
+        return blog.list_posts()
