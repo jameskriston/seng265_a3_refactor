@@ -133,6 +133,8 @@ class Controller:
             return False
         blog = self.get_current_blog()
         return blog.search_post(code)
+    
+    
     def retrieve_posts(self,text):
         if(self.logged_in is False):
                 return False
